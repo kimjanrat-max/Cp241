@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1e40af" />
+  <title>PokéSort | Mega Battle Arena Sort</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="game.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="หน้าแรก PokéSort">
+      <span class="pokeball" aria-hidden="true"></span>
+      <span>Poké<span class="brand-accent">Sort</span></span>
+    </a>
+    <div class="topbar-actions">
+      <button class="info-toggle-btn" id="infoButton" type="button">📖 คู่มืออัลกอริทึม</button>
+      <span class="top-tag">BATTLE ARENA</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <p class="eyebrow">MEGA EVOLUTION BATTLE</p>
+      <h1>Poké<span>Sort!</span></h1>
+      <p class="subtitle">
+        ฝึกฝนการจัดเรียงข้อมูลทีละรอบ พร้อมพลังของ Mega Lucario (ฟ้า) และ Mega Blaziken (แดง)
+      </p>
+    </section>
+
+    <!-- ป้ายแสดงรอบการทำงาน -->
+    <section class="pass-banner" aria-label="สถานะรอบปัจจุบัน">
+      <div class="pass-banner-content">
+        <span class="pass-icon">
+        <img src="profile.jpg" alt="Trainer" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;" />
+        </span>
+        <div>
+          <span class="pass-label-small">สถานะการต่อสู้ปัจจุบัน</span>
+          <h2 class="pass-value-large" id="passDisplay">รอบที่ 1 (Pass 1)</h2>
+        </div>
+      </div>
+      <div class="pass-instruction" id="passHint">
+        จัดเรียงตำแหน่งในรอบนี้ให้ถูกต้องแล้วกดยืนยัน
+      </div>
+    </section>
+
+    <!-- แถบแสดงเลขต้นฉบับ -->
+    <section class="original-box" aria-label="เลขต้นฉบับ">
+      <span class="orig-label">📌 ตัวเลขตั้งต้นของตานี้:</span>
+      <div class="orig-numbers" id="origNumbersContainer"></div>
+    </section>
+
+    <section class="stats" aria-label="สถิติเกม">
+      <article class="stat-card">
+        <span class="stat-icon">⏱️</span>
+        <div>
+          <p class="stat-label">เวลาที่เหลือ</p>
+          <p class="stat-value" id="timer">120s</p>
+        </div>
+      </article>
+      <article class="stat-card">
+        <span class="stat-icon">🎯</span>
+        <div>
+          <p class="stat-label">โหมดปัจจุบัน</p>
+          <p class="stat-value" id="modeNameDisplay">Bubble Sort</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="game-panel">
+      <div class="panel-heading">
+        <div class="arena-title-wrapper">
+          <span class="arena-badge-icon">⚔️</span>
+          <h2 class="arena-main-title">BATTLE ARENA</h2>
+        </div>
+      </div>
+
+      <div class="mode-section">
+        <p class="section-label">เลือกโหมดการจัดเรียง (เปลี่ยนโหมดจะเริ่มเกมและสุ่มเลขใหม่ทันที)</p>
+        <div class="mode-buttons">
+          <button class="mode-button active" id="bubbleMode" type="button">
+            <span>🔷</span>
+            <span>
+              <strong>Bubble Sort</strong>
+              <small>สลับคู่ติดกัน ดันค่ามากไปขวาทีละรอบ</small>
+            </span>
+          </button>
+          <button class="mode-button" id="insertionMode" type="button">
+            <span>🟥</span>
+            <span>
+              <strong>Insertion Sort</strong>
+              <small>หยิบการ์ดตัวถัดไปมาแทรกในชุดซ้าย</small>
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <div class="number-board" id="numberBoard" aria-label="กระดานการ์ดตัวเลข"></div>
+
+      <p class="feedback" id="feedback" role="status" aria-live="polite">
+        จัดเรียงตามเงื่อนไขของรอบ แล้วกดปุ่มยืนยันคำตอบครับ!
+      </p>
+
+      <div class="action-buttons">
+        <button class="primary-button" id="submitButton" type="button">
+          ✓ ยืนยันคำตอบรอบนี้ (Submit Pass)
+        </button>
+        <button class="secondary-button" id="restartButton" type="button">
+          ↻ สุ่มเลขใหม่ / เริ่มตาใหม่
+        </button>
+      </div>
+
+      <p class="helper-text" id="helperGuideText">
+        การ์ดสีฟ้า (Lucario) = ถูกต้อง/ผ่านแล้ว | การ์ดสีแดง (Blaziken) = เป้าหมาย/ขอบเขตที่ต้องจัดการ
+      </p>
+    </section>
+
+    <footer class="footer">
+      <p>PokéSort · Mega Blaziken vs Mega Lucario Edition</p>
+    </footer>
+  </main>
+
+  <!-- Modals -->
+  <div class="modal-backdrop" id="rulesModal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-mascot" aria-hidden="true">🔥</div>
+      <p class="eyebrow">ยินดีต้อนรับ เทรนเนอร์</p>
+      <h2>สังเวียนจัดเรียงข้อมูล Mega</h2>
+      <p class="modal-description">
+        สู้ด้วยพลังของ Mega Lucario (ฟ้า) และ Mega Blaziken (แดง) จัดเรียงตามกฎในแต่ละ Pass แล้วกด Submit เพื่อคว้าชัยชนะ!
+      </p>
+      <button class="primary-button modal-start" id="startButton" type="button">
+        ⚡ เริ่มต้นการต่อสู้
+      </button>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="infoModal" role="dialog" aria-modal="true">
+    <div class="modal-card info-card">
+      <div class="modal-mascot" aria-hidden="true">📖</div>
+      <p class="eyebrow">ศูนย์การเรียนรู้</p>
+      <h2>หลักการทำงานของแต่ละโหมด</h2>
+      <div class="info-content">
+        <div class="info-block">
+          <h3>Bubble Sort</h3>
+          <p>เปรียบเทียบและสลับการ์ดที่อยู่ติดกันทีละคู่ เพื่อผลักตัวเลขที่ใหญ่ที่สุดไปตกตะกอนอยู่ขวาสุดของรอบนั้น</p>
+        </div>
+        <div class="info-block">
+          <h3>Insertion Sort</h3>
+          <p>หยิบการ์ดตัวถัดไปตามลำดับทางขวา มาแทรกในตำแหน่งที่ถูกต้องของชุดข้อมูลทางซ้ายที่จัดเรียงแล้วทีละใบ</p>
+        </div>
+      </div>
+      <button class="primary-button modal-start" id="closeInfoButton" type="button">
+        ปิดหน้าต่างนี้
+      </button>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="resultModal" role="dialog" aria-modal="true">
+    <div class="modal-card result-card">
+      <div class="modal-mascot" id="resultEmoji" aria-hidden="true">🏆</div>
+      <p class="eyebrow">สิ้นสุดการประลอง</p>
+      <h2 id="resultTitle">ยอดเยี่ยมมาก!</h2>
+      <p class="modal-description" id="resultMessage"></p>
+      <button class="primary-button modal-start" id="playAgainButton" type="button">
+        ↻ เล่นตานี้ใหม่ / สุ่มเลขใหม่
+      </button>
+    </div>
+  </div>
+</body>
+</html>
